@@ -1,0 +1,244 @@
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   Spotify Clone
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+  <style>
+   body {
+            font-family: 'Roboto', sans-serif;
+        }
+  </style>
+ </head>
+ <body class="bg-gray-900 text-white">
+  <div class="flex flex-col md:flex-row h-screen">
+   <!-- Sidebar -->
+   <div class="bg-gray-800 w-full md:w-1/4 lg:w-1/5 p-4 flex flex-col">
+    <div class="mb-8">
+     <img alt="Spotify Logo" height="50" src="https://storage.googleapis.com/a1aa/image/kBdkO8wmfJbyP4uJACywqx4mxnqfOi9NLjfc_G4R2Ew.jpg" width="150"/>
+    </div>
+    <nav class="flex flex-col space-y-4">
+     <a class="flex items-center space-x-2 text-gray-400 hover:text-white" href="#">
+      <i class="fas fa-home">
+      </i>
+      <span>
+       Home
+      </span>
+     </a>
+     <a class="flex items-center space-x-2 text-gray-400 hover:text-white" href="#">
+      <i class="fas fa-search">
+      </i>
+      <span>
+       Search
+      </span>
+     </a>
+     <a class="flex items-center space-x-2 text-gray-400 hover:text-white" href="#">
+      <i class="fas fa-book">
+      </i>
+      <span>
+       Your Library
+      </span>
+     </a>
+    </nav>
+    <div class="mt-auto">
+     <a class="flex items-center space-x-2 text-gray-400 hover:text-white" href="#">
+      <i class="fas fa-plus-square">
+      </i>
+      <span>
+       Create Playlist
+      </span>
+     </a>
+     <a class="flex items-center space-x-2 text-gray-400 hover:text-white mt-4" href="#">
+      <i class="fas fa-heart">
+      </i>
+      <span>
+       Liked Songs
+      </span>
+     </a>
+    </div>
+   </div>
+   <!-- Main Content -->
+   <div class="flex-1 p-4 overflow-y-auto">
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-8">
+     <div class="flex items-center space-x-4">
+      <button class="text-gray-400 hover:text-white">
+       <i class="fas fa-chevron-left">
+       </i>
+      </button>
+      <button class="text-gray-400 hover:text-white">
+       <i class="fas fa-chevron-right">
+       </i>
+      </button>
+     </div>
+     <div class="flex items-center space-x-4">
+      <button class="bg-gray-700 text-white px-4 py-2 rounded-full">
+       Upgrade
+      </button>
+      <div class="flex items-center space-x-2">
+       <img alt="User Profile Picture" class="rounded-full" height="30" src="https://storage.googleapis.com/a1aa/image/43SOliZn3IBEAlA-pdUP2OzeFD8cjebTiiXm9AHhQsE.jpg" width="30"/>
+       <span>
+        Username
+       </span>
+      </div>
+     </div>
+    </div>
+    <!-- Playlists -->
+    <div>
+     <h2 class="text-2xl font-bold mb-4">
+      Good Evening
+     </h2>
+     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+      <div class="bg-gray-800 p-4 rounded-lg flex items-center space-x-4">
+       <img alt="Playlist 1 Cover" class="rounded-lg" height="60" src="https://storage.googleapis.com/a1aa/image/tGm4LvpzSIE67TZml3-7-NUHfBRos8PETHgJhvjxCZY.jpg" width="60"/>
+       <span>
+        Playlist 1
+       </span>
+      </div>
+      <div class="bg-gray-800 p-4 rounded-lg flex items-center space-x-4">
+       <img alt="Playlist 2 Cover" class="rounded-lg" height="60" src="https://storage.googleapis.com/a1aa/image/spTIKwmp8bowC1hBdV-A49JAfGvmuUvzACgnNkXQZZI.jpg" width="60"/>
+       <span>
+        Playlist 2
+       </span>
+      </div>
+      <div class="bg-gray-800 p-4 rounded-lg flex items-center space-x-4">
+       <img alt="Playlist 3 Cover" class="rounded-lg" height="60" src="https://storage.googleapis.com/a1aa/image/x93R23oc4iXlA-pp9iGPmwAnFd8bWEA2XzF00hSJHKk.jpg" width="60"/>
+       <span>
+        Playlist 3
+       </span>
+      </div>
+      <div class="bg-gray-800 p-4 rounded-lg flex items-center space-x-4">
+       <img alt="Playlist 4 Cover" class="rounded-lg" height="60" src="https://storage.googleapis.com/a1aa/image/RnS_uGQptmGAzzd_0mSHlIXotCdJk8NMqox0KGHxCk8.jpg" width="60"/>
+       <span>
+        Playlist 4
+       </span>
+      </div>
+      <div class="bg-gray-800 p-4 rounded-lg flex items-center space-x-4">
+       <img alt="Playlist 5 Cover" class="rounded-lg" height="60" src="https://storage.googleapis.com/a1aa/image/TBB7yEFKq3t2-qCdpIB3nYy2ksWermjZoy5ABVpybfw.jpg" width="60"/>
+       <span>
+        Playlist 5
+       </span>
+      </div>
+      <div class="bg-gray-800 p-4 rounded-lg flex items-center space-x-4">
+       <img alt="Playlist 6 Cover" class="rounded-lg" height="60" src="https://storage.googleapis.com/a1aa/image/j7WwchBY2smqQOPW99YbPZ5KHv23a8gQdN3qa646X5M.jpg" width="60"/>
+       <span>
+        Playlist 6
+       </span>
+      </div>
+     </div>
+    </div>
+    <!-- Recently Played -->
+    <div class="mt-8">
+     <h2 class="text-2xl font-bold mb-4">
+      Recently Played
+     </h2>
+     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+      <div class="bg-gray-800 p-4 rounded-lg">
+       <img alt="Album 1 Cover" class="rounded-lg mb-2" height="150" src="https://storage.googleapis.com/a1aa/image/qycslWZuFa7sgvbztWm0p8RwI6wpX3ITEdn5_z6hUnU.jpg" width="150"/>
+       <span>
+        Album 1
+       </span>
+      </div>
+      <div class="bg-gray-800 p-4 rounded-lg">
+       <img alt="Album 2 Cover" class="rounded-lg mb-2" height="150" src="https://storage.googleapis.com/a1aa/image/kWb-3S6a_owmiGOKSmskrw-jYznC4L17VDWs0JVAxcA.jpg" width="150"/>
+       <span>
+        Album 2
+       </span>
+      </div>
+      <div class="bg-gray-800 p-4 rounded-lg">
+       <img alt="Album 3 Cover" class="rounded-lg mb-2" height="150" src="https://storage.googleapis.com/a1aa/image/hRj4NLEbxj_f0NiE4FuOW6LTqnzwT6k8nlxO9qPz5CE.jpg" width="150"/>
+       <span>
+        Album 3
+       </span>
+      </div>
+      <div class="bg-gray-800 p-4 rounded-lg">
+       <img alt="Album 4 Cover" class="rounded-lg mb-2" height="150" src="https://storage.googleapis.com/a1aa/image/YwZmRlPRB2z4zgfmbHDQeu4czrevhPmYagiz7-QQ4BA.jpg" width="150"/>
+       <span>
+        Album 4
+       </span>
+      </div>
+      <div class="bg-gray-800 p-4 rounded-lg">
+       <img alt="Album 5 Cover" class="rounded-lg mb-2" height="150" src="https://storage.googleapis.com/a1aa/image/rFMprigolUgM7fgNNMYkOthgSoWjCL0EkpCHoNBvT4s.jpg" width="150"/>
+       <span>
+        Album 5
+       </span>
+      </div>
+      <div class="bg-gray-800 p-4 rounded-lg">
+       <img alt="Album 6 Cover" class="rounded-lg mb-2" height="150" src="https://storage.googleapis.com/a1aa/image/hmRbk4b51FTKk8itgyu-QshK3jnQRvOem3sDYVcazKY.jpg" width="150"/>
+       <span>
+        Album 6
+       </span>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+  <!-- Footer Player -->
+  <div class="bg-gray-800 p-4 fixed bottom-0 w-full flex items-center justify-between">
+   <div class="flex items-center space-x-4">
+    <img alt="Current Song Cover" class="rounded-lg" height="60" src="https://storage.googleapis.com/a1aa/image/Q7QxvP0kSv7UlAZtjPfu45g4MMokI73Obg-6-sXFk_4.jpg" width="60"/>
+    <div>
+     <div>
+      Current Song
+     </div>
+     <div class="text-gray-400">
+      Artist Name
+     </div>
+    </div>
+   </div>
+   <div class="flex items-center space-x-4">
+    <button class="text-gray-400 hover:text-white">
+     <i class="fas fa-random">
+     </i>
+    </button>
+    <button class="text-gray-400 hover:text-white">
+     <i class="fas fa-step-backward">
+     </i>
+    </button>
+    <button class="text-gray-400 hover:text-white">
+     <i class="fas fa-play-circle text-2xl">
+     </i>
+    </button>
+    <button class="text-gray-400 hover:text-white">
+     <i class="fas fa-step-forward">
+     </i>
+    </button>
+    <button class="text-gray-400 hover:text-white">
+     <i class="fas fa-redo">
+     </i>
+    </button>
+   </div>
+   <div class="flex items-center space-x-2">
+    <span class="text-gray-400">
+     0:00
+    </span>
+    <div class="bg-gray-700 h-1 w-32 rounded-full">
+     <div class="bg-green-500 h-1 w-16 rounded-full">
+     </div>
+    </div>
+    <span class="text-gray-400">
+     3:45
+    </span>
+   </div>
+   <div class="flex items-center space-x-4">
+    <button class="text-gray-400 hover:text-white">
+     <i class="fas fa-volume-down">
+     </i>
+    </button>
+    <div class="bg-gray-700 h-1 w-24 rounded-full">
+     <div class="bg-green-500 h-1 w-12 rounded-full">
+     </div>
+    </div>
+    <button class="text-gray-400 hover:text-white">
+     <i class="fas fa-volume-up">
+     </i>
+    </button>
+   </div>
+  </div>
+ </body>
+</html>
