@@ -1,244 +1,706 @@
+<!DOCTYPE html>
 <html lang="en">
- <head>
+<head>
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>
-   Spotify Clone
-  </title>
-  <script src="https://cdn.tailwindcss.com">
-  </script>
+  <title>Spotify Clone</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"/>
   <style>
-   body {
-            font-family: 'Roboto', sans-serif;
-        }
+    body {
+      font-family: 'Roboto', sans-serif;
+    }
+    .play-button {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .playlist-item:hover .play-button {
+      display: block;
+    }
+    .progress-bar {
+      -webkit-appearance: none;
+      height: 4px;
+      background: #4d4d4d;
+      border-radius: 2px;
+      cursor: pointer;
+    }
+    .progress-bar::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 12px;
+      height: 12px;
+      background: #fff;
+      border-radius: 50%;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .progress-bar:hover::-webkit-slider-thumb {
+      opacity: 1;
+    }
+    .volume-bar {
+      -webkit-appearance: none;
+      height: 4px;
+      background: #4d4d4d;
+      border-radius: 2px;
+      cursor: pointer;
+    }
+    .volume-bar::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 12px;
+      height: 12px;
+      background: #fff;
+      border-radius: 50%;
+    }
   </style>
- </head>
- <body class="bg-gray-900 text-white">
-  <div class="flex flex-col md:flex-row h-screen">
-   <!-- Sidebar -->
-   <div class="bg-gray-800 w-full md:w-1/4 lg:w-1/5 p-4 flex flex-col">
-    <div class="mb-8">
-     <img alt="Spotify Logo" height="50" src="https://storage.googleapis.com/a1aa/image/kBdkO8wmfJbyP4uJACywqx4mxnqfOi9NLjfc_G4R2Ew.jpg" width="150"/>
+</head>
+<body class="bg-gray-900 text-white">
+  <div class="flex flex-col md:flex-row h-screen pb-24">
+    <!-- Sidebar -->
+    <div class="bg-gray-800 w-full md:w-1/4 lg:w-1/5 p-4 flex flex-col">
+      <div class="mb-8">
+        <img alt="Spotify Logo" height="50" src="https://storage.googleapis.com/a1aa/image/kBdkO8wmfJbyP4uJACywqx4mxnqfOi9NLjfc_G4R2Ew.jpg" width="150"/>
+      </div>
+      <nav class="flex flex-col space-y-4">
+        <a class="flex items-center space-x-2 text-gray-400 hover:text-white" href="#">
+          <i class="fas fa-home"></i>
+          <span>Home</span>
+        </a>
+        <a class="flex items-center space-x-2 text-gray-400 hover:text-white" href="#">
+          <i class="fas fa-search"></i>
+          <span>Search</span>
+        </a>
+        <a class="flex items-center space-x-2 text-gray-400 hover:text-white" href="#">
+          <i class="fas fa-book"></i>
+          <span>Your Library</span>
+        </a>
+      </nav>
+      <div class="mt-auto">
+        <a class="flex items-center space-x-2 text-gray-400 hover:text-white" href="#">
+          <i class="fas fa-plus-square"></i>
+          <span>Create Playlist</span>
+        </a>
+        <a class="flex items-center space-x-2 text-gray-400 hover:text-white mt-4" href="#">
+          <i class="fas fa-heart"></i>
+          <span>Liked Songs</span>
+        </a>
+      </div>
     </div>
-    <nav class="flex flex-col space-y-4">
-     <a class="flex items-center space-x-2 text-gray-400 hover:text-white" href="#">
-      <i class="fas fa-home">
-      </i>
-      <span>
-       Home
-      </span>
-     </a>
-     <a class="flex items-center space-x-2 text-gray-400 hover:text-white" href="#">
-      <i class="fas fa-search">
-      </i>
-      <span>
-       Search
-      </span>
-     </a>
-     <a class="flex items-center space-x-2 text-gray-400 hover:text-white" href="#">
-      <i class="fas fa-book">
-      </i>
-      <span>
-       Your Library
-      </span>
-     </a>
-    </nav>
-    <div class="mt-auto">
-     <a class="flex items-center space-x-2 text-gray-400 hover:text-white" href="#">
-      <i class="fas fa-plus-square">
-      </i>
-      <span>
-       Create Playlist
-      </span>
-     </a>
-     <a class="flex items-center space-x-2 text-gray-400 hover:text-white mt-4" href="#">
-      <i class="fas fa-heart">
-      </i>
-      <span>
-       Liked Songs
-      </span>
-     </a>
+    
+    <!-- Main Content -->
+    <div class="flex-1 p-4 overflow-y-auto">
+      <!-- Header -->
+      <div class="flex justify-between items-center mb-8">
+        <div class="flex items-center space-x-4">
+          <button class="text-gray-400 hover:text-white">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <button class="text-gray-400 hover:text-white">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+        <div class="flex items-center space-x-4">
+          <button class="bg-gray-700 text-white px-4 py-2 rounded-full">
+            Upgrade
+          </button>
+          <div class="flex items-center space-x-2">
+            <img alt="User Profile Picture" class="rounded-full" height="30" src="https://storage.googleapis.com/a1aa/image/43SOliZn3IBEAlA-pdUP2OzeFD8cjebTiiXm9AHhQsE.jpg" width="30"/>
+            <span>Username</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Playlists -->
+      <div>
+        <h2 class="text-2xl font-bold mb-4">Good Evening</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4" id="playlists">
+          <!-- Playlist items will be inserted here by JavaScript -->
+        </div>
+      </div>
+      
+      <!-- Recently Played -->
+      <div class="mt-8">
+        <h2 class="text-2xl font-bold mb-4">Recently Played</h2>
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4" id="recently-played">
+          <!-- Recently played items will be inserted here by JavaScript -->
+        </div>
+      </div>
     </div>
-   </div>
-   <!-- Main Content -->
-   <div class="flex-1 p-4 overflow-y-auto">
-    <!-- Header -->
-    <div class="flex justify-between items-center mb-8">
-     <div class="flex items-center space-x-4">
-      <button class="text-gray-400 hover:text-white">
-       <i class="fas fa-chevron-left">
-       </i>
-      </button>
-      <button class="text-gray-400 hover:text-white">
-       <i class="fas fa-chevron-right">
-       </i>
-      </button>
-     </div>
-     <div class="flex items-center space-x-4">
-      <button class="bg-gray-700 text-white px-4 py-2 rounded-full">
-       Upgrade
-      </button>
-      <div class="flex items-center space-x-2">
-       <img alt="User Profile Picture" class="rounded-full" height="30" src="https://storage.googleapis.com/a1aa/image/43SOliZn3IBEAlA-pdUP2OzeFD8cjebTiiXm9AHhQsE.jpg" width="30"/>
-       <span>
-        Username
-       </span>
-      </div>
-     </div>
-    </div>
-    <!-- Playlists -->
-    <div>
-     <h2 class="text-2xl font-bold mb-4">
-      Good Evening
-     </h2>
-     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-      <div class="bg-gray-800 p-4 rounded-lg flex items-center space-x-4">
-       <img alt="Playlist 1 Cover" class="rounded-lg" height="60" src="https://storage.googleapis.com/a1aa/image/tGm4LvpzSIE67TZml3-7-NUHfBRos8PETHgJhvjxCZY.jpg" width="60"/>
-       <span>
-        Playlist 1
-       </span>
-      </div>
-      <div class="bg-gray-800 p-4 rounded-lg flex items-center space-x-4">
-       <img alt="Playlist 2 Cover" class="rounded-lg" height="60" src="https://storage.googleapis.com/a1aa/image/spTIKwmp8bowC1hBdV-A49JAfGvmuUvzACgnNkXQZZI.jpg" width="60"/>
-       <span>
-        Playlist 2
-       </span>
-      </div>
-      <div class="bg-gray-800 p-4 rounded-lg flex items-center space-x-4">
-       <img alt="Playlist 3 Cover" class="rounded-lg" height="60" src="https://storage.googleapis.com/a1aa/image/x93R23oc4iXlA-pp9iGPmwAnFd8bWEA2XzF00hSJHKk.jpg" width="60"/>
-       <span>
-        Playlist 3
-       </span>
-      </div>
-      <div class="bg-gray-800 p-4 rounded-lg flex items-center space-x-4">
-       <img alt="Playlist 4 Cover" class="rounded-lg" height="60" src="https://storage.googleapis.com/a1aa/image/RnS_uGQptmGAzzd_0mSHlIXotCdJk8NMqox0KGHxCk8.jpg" width="60"/>
-       <span>
-        Playlist 4
-       </span>
-      </div>
-      <div class="bg-gray-800 p-4 rounded-lg flex items-center space-x-4">
-       <img alt="Playlist 5 Cover" class="rounded-lg" height="60" src="https://storage.googleapis.com/a1aa/image/TBB7yEFKq3t2-qCdpIB3nYy2ksWermjZoy5ABVpybfw.jpg" width="60"/>
-       <span>
-        Playlist 5
-       </span>
-      </div>
-      <div class="bg-gray-800 p-4 rounded-lg flex items-center space-x-4">
-       <img alt="Playlist 6 Cover" class="rounded-lg" height="60" src="https://storage.googleapis.com/a1aa/image/j7WwchBY2smqQOPW99YbPZ5KHv23a8gQdN3qa646X5M.jpg" width="60"/>
-       <span>
-        Playlist 6
-       </span>
-      </div>
-     </div>
-    </div>
-    <!-- Recently Played -->
-    <div class="mt-8">
-     <h2 class="text-2xl font-bold mb-4">
-      Recently Played
-     </h2>
-     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
-      <div class="bg-gray-800 p-4 rounded-lg">
-       <img alt="Album 1 Cover" class="rounded-lg mb-2" height="150" src="https://storage.googleapis.com/a1aa/image/qycslWZuFa7sgvbztWm0p8RwI6wpX3ITEdn5_z6hUnU.jpg" width="150"/>
-       <span>
-        Album 1
-       </span>
-      </div>
-      <div class="bg-gray-800 p-4 rounded-lg">
-       <img alt="Album 2 Cover" class="rounded-lg mb-2" height="150" src="https://storage.googleapis.com/a1aa/image/kWb-3S6a_owmiGOKSmskrw-jYznC4L17VDWs0JVAxcA.jpg" width="150"/>
-       <span>
-        Album 2
-       </span>
-      </div>
-      <div class="bg-gray-800 p-4 rounded-lg">
-       <img alt="Album 3 Cover" class="rounded-lg mb-2" height="150" src="https://storage.googleapis.com/a1aa/image/hRj4NLEbxj_f0NiE4FuOW6LTqnzwT6k8nlxO9qPz5CE.jpg" width="150"/>
-       <span>
-        Album 3
-       </span>
-      </div>
-      <div class="bg-gray-800 p-4 rounded-lg">
-       <img alt="Album 4 Cover" class="rounded-lg mb-2" height="150" src="https://storage.googleapis.com/a1aa/image/YwZmRlPRB2z4zgfmbHDQeu4czrevhPmYagiz7-QQ4BA.jpg" width="150"/>
-       <span>
-        Album 4
-       </span>
-      </div>
-      <div class="bg-gray-800 p-4 rounded-lg">
-       <img alt="Album 5 Cover" class="rounded-lg mb-2" height="150" src="https://storage.googleapis.com/a1aa/image/rFMprigolUgM7fgNNMYkOthgSoWjCL0EkpCHoNBvT4s.jpg" width="150"/>
-       <span>
-        Album 5
-       </span>
-      </div>
-      <div class="bg-gray-800 p-4 rounded-lg">
-       <img alt="Album 6 Cover" class="rounded-lg mb-2" height="150" src="https://storage.googleapis.com/a1aa/image/hmRbk4b51FTKk8itgyu-QshK3jnQRvOem3sDYVcazKY.jpg" width="150"/>
-       <span>
-        Album 6
-       </span>
-      </div>
-     </div>
-    </div>
-   </div>
   </div>
+  
   <!-- Footer Player -->
   <div class="bg-gray-800 p-4 fixed bottom-0 w-full flex items-center justify-between">
-   <div class="flex items-center space-x-4">
-    <img alt="Current Song Cover" class="rounded-lg" height="60" src="https://storage.googleapis.com/a1aa/image/Q7QxvP0kSv7UlAZtjPfu45g4MMokI73Obg-6-sXFk_4.jpg" width="60"/>
-    <div>
-     <div>
-      Current Song
-     </div>
-     <div class="text-gray-400">
-      Artist Name
-     </div>
+    <div class="flex items-center space-x-4 w-1/4">
+      <img id="current-song-cover" alt="Current Song Cover" class="rounded-lg" height="60" src="https://storage.googleapis.com/a1aa/image/Q7QxvP0kSv7UlAZtjPfu45g4MMokI73Obg-6-sXFk_4.jpg" width="60"/>
+      <div>
+        <div id="current-song-title">No song selected</div>
+        <div class="text-gray-400" id="current-song-artist">Select a song to play</div>
+      </div>
+      <button class="text-gray-400 hover:text-white" id="like-button">
+        <i class="far fa-heart"></i>
+      </button>
     </div>
-   </div>
-   <div class="flex items-center space-x-4">
-    <button class="text-gray-400 hover:text-white">
-     <i class="fas fa-random">
-     </i>
-    </button>
-    <button class="text-gray-400 hover:text-white">
-     <i class="fas fa-step-backward">
-     </i>
-    </button>
-    <button class="text-gray-400 hover:text-white">
-     <i class="fas fa-play-circle text-2xl">
-     </i>
-    </button>
-    <button class="text-gray-400 hover:text-white">
-     <i class="fas fa-step-forward">
-     </i>
-    </button>
-    <button class="text-gray-400 hover:text-white">
-     <i class="fas fa-redo">
-     </i>
-    </button>
-   </div>
-   <div class="flex items-center space-x-2">
-    <span class="text-gray-400">
-     0:00
-    </span>
-    <div class="bg-gray-700 h-1 w-32 rounded-full">
-     <div class="bg-green-500 h-1 w-16 rounded-full">
-     </div>
+    
+    <div class="flex flex-col items-center w-2/4">
+      <div class="flex items-center space-x-4">
+        <button class="text-gray-400 hover:text-white" id="shuffle-button">
+          <i class="fas fa-random"></i>
+        </button>
+        <button class="text-gray-400 hover:text-white" id="prev-button">
+          <i class="fas fa-step-backward"></i>
+        </button>
+        <button class="text-gray-400 hover:text-white" id="play-button">
+          <i class="fas fa-play-circle text-2xl"></i>
+        </button>
+        <button class="text-gray-400 hover:text-white" id="next-button">
+          <i class="fas fa-step-forward"></i>
+        </button>
+        <button class="text-gray-400 hover:text-white" id="repeat-button">
+          <i class="fas fa-redo"></i>
+        </button>
+      </div>
+      <div class="flex items-center space-x-2 w-full mt-2">
+        <span class="text-gray-400 text-xs" id="current-time">0:00</span>
+        <input type="range" min="0" max="100" value="0" class="progress-bar flex-1" id="progress-bar"/>
+        <span class="text-gray-400 text-xs" id="duration">0:00</span>
+      </div>
     </div>
-    <span class="text-gray-400">
-     3:45
-    </span>
-   </div>
-   <div class="flex items-center space-x-4">
-    <button class="text-gray-400 hover:text-white">
-     <i class="fas fa-volume-down">
-     </i>
-    </button>
-    <div class="bg-gray-700 h-1 w-24 rounded-full">
-     <div class="bg-green-500 h-1 w-12 rounded-full">
-     </div>
+    
+    <div class="flex items-center space-x-4 w-1/4 justify-end">
+      <button class="text-gray-400 hover:text-white" id="queue-button">
+        <i class="fas fa-list"></i>
+      </button>
+      <button class="text-gray-400 hover:text-white" id="device-button">
+        <i class="fas fa-laptop"></i>
+      </button>
+      <button class="text-gray-400 hover:text-white" id="volume-button">
+        <i class="fas fa-volume-up"></i>
+      </button>
+      <input type="range" min="0" max="100" value="80" class="volume-bar w-20" id="volume-bar"/>
     </div>
-    <button class="text-gray-400 hover:text-white">
-     <i class="fas fa-volume-up">
-     </i>
-    </button>
-   </div>
   </div>
- </body>
+
+  <!-- Audio Element -->
+  <audio id="audio-player"></audio>
+
+  <script>
+    // Song Database with working audio links
+    const songs = [
+      {
+        id: 1,
+        title: "Blinding Lights",
+        artist: "The Weeknd",
+        album: "After Hours",
+        cover: "https://storage.googleapis.com/a1aa/image/qycslWZuFa7sgvbztWm0p8RwI6wpX3ITEdn5_z6hUnU.jpg",
+        audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+        duration: "3:20",
+        playlist: "Today's Top Hits"
+      },
+      {
+        id: 2,
+        title: "Save Your Tears",
+        artist: "The Weeknd",
+        album: "After Hours",
+        cover: "https://storage.googleapis.com/a1aa/image/qycslWZuFa7sgvbztWm0p8RwI6wpX3ITEdn5_z6hUnU.jpg",
+        audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
+        duration: "3:35",
+        playlist: "Today's Top Hits"
+      },
+      {
+        id: 3,
+        title: "Levitating",
+        artist: "Dua Lipa",
+        album: "Future Nostalgia",
+        cover: "https://storage.googleapis.com/a1aa/image/kWb-3S6a_owmiGOKSmskrw-jYznC4L17VDWs0JVAxcA.jpg",
+        audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
+        duration: "3:23",
+        playlist: "Pop Hits"
+      },
+      {
+        id: 4,
+        title: "Don't Start Now",
+        artist: "Dua Lipa",
+        album: "Future Nostalgia",
+        cover: "https://storage.googleapis.com/a1aa/image/kWb-3S6a_owmiGOKSmskrw-jYznC4L17VDWs0JVAxcA.jpg",
+        audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3",
+        duration: "3:03",
+        playlist: "Pop Hits"
+      },
+      {
+        id: 5,
+        title: "Watermelon Sugar",
+        artist: "Harry Styles",
+        album: "Fine Line",
+        cover: "https://storage.googleapis.com/a1aa/image/hRj4NLEbxj_f0NiE4FuOW6LTqnzwT6k8nlxO9qPz5CE.jpg",
+        audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3",
+        duration: "2:54",
+        playlist: "Chill Hits"
+      },
+      {
+        id: 6,
+        title: "Adore You",
+        artist: "Harry Styles",
+        album: "Fine Line",
+        cover: "https://storage.googleapis.com/a1aa/image/hRj4NLEbxj_f0NiE4FuOW6LTqnzwT6k8nlxO9qPz5CE.jpg",
+        audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3",
+        duration: "3:27",
+        playlist: "Chill Hits"
+      },
+      {
+        id: 7,
+        title: "Circles",
+        artist: "Post Malone",
+        album: "Hollywood's Bleeding",
+        cover: "https://storage.googleapis.com/a1aa/image/YwZmRlPRB2z4zgfmbHDQeu4czrevhPmYagiz7-QQ4BA.jpg",
+        audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3",
+        duration: "3:35",
+        playlist: "Rock Classics"
+      },
+      {
+        id: 8,
+        title: "Sunflower",
+        artist: "Post Malone, Swae Lee",
+        album: "Spider-Man: Into the Spider-Verse",
+        cover: "https://storage.googleapis.com/a1aa/image/rFMprigolUgM7fgNNMYkOthgSoWjCL0EkpCHoNBvT4s.jpg",
+        audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3",
+        duration: "2:38",
+        playlist: "Movie Hits"
+      },
+      {
+        id: 9,
+        title: "Stay",
+        artist: "The Kid LAROI, Justin Bieber",
+        album: "F*CK LOVE 3: OVER YOU",
+        cover: "https://storage.googleapis.com/a1aa/image/hmRbk4b51FTKk8itgyu-QshK3jnQRvOem3sDYVcazKY.jpg",
+        audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3",
+        duration: "2:21",
+        playlist: "Today's Top Hits"
+      },
+      {
+        id: 10,
+        title: "good 4 u",
+        artist: "Olivia Rodrigo",
+        album: "SOUR",
+        cover: "https://storage.googleapis.com/a1aa/image/tGm4LvpzSIE67TZml3-7-NUHfBRos8PETHgJhvjxCZY.jpg",
+        audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3",
+        duration: "2:58",
+        playlist: "Teen Party"
+      }
+    ];
+
+    // Playlists
+    const playlists = [
+      {
+        id: 1,
+        name: "Today's Top Hits",
+        cover: "https://storage.googleapis.com/a1aa/image/tGm4LvpzSIE67TZml3-7-NUHfBRos8PETHgJhvjxCZY.jpg",
+        songs: [1, 2, 9]
+      },
+      {
+        id: 2,
+        name: "Pop Hits",
+        cover: "https://storage.googleapis.com/a1aa/image/spTIKwmp8bowC1hBdV-A49JAfGvmuUvzACgnNkXQZZI.jpg",
+        songs: [3, 4]
+      },
+      {
+        id: 3,
+        name: "Chill Hits",
+        cover: "https://storage.googleapis.com/a1aa/image/x93R23oc4iXlA-pp9iGPmwAnFd8bWEA2XzF00hSJHKk.jpg",
+        songs: [5, 6]
+      },
+      {
+        id: 4,
+        name: "Rock Classics",
+        cover: "https://storage.googleapis.com/a1aa/image/RnS_uGQptmGAzzd_0mSHlIXotCdJk8NMqox0KGHxCk8.jpg",
+        songs: [7]
+      },
+      {
+        id: 5,
+        name: "Movie Hits",
+        cover: "https://storage.googleapis.com/a1aa/image/TBB7yEFKq3t2-qCdpIB3nYy2ksWermjZoy5ABVpybfw.jpg",
+        songs: [8]
+      },
+      {
+        id: 6,
+        name: "Teen Party",
+        cover: "https://storage.googleapis.com/a1aa/image/j7WwchBY2smqQOPW99YbPZ5KHv23a8gQdN3qa646X5M.jpg",
+        songs: [10]
+      }
+    ];
+
+    // Recently Played (album view)
+    const recentlyPlayed = [
+      {
+        id: 1,
+        name: "After Hours",
+        artist: "The Weeknd",
+        cover: "https://storage.googleapis.com/a1aa/image/qycslWZuFa7sgvbztWm0p8RwI6wpX3ITEdn5_z6hUnU.jpg",
+        songs: [1, 2]
+      },
+      {
+        id: 2,
+        name: "Future Nostalgia",
+        artist: "Dua Lipa",
+        cover: "https://storage.googleapis.com/a1aa/image/kWb-3S6a_owmiGOKSmskrw-jYznC4L17VDWs0JVAxcA.jpg",
+        songs: [3, 4]
+      },
+      {
+        id: 3,
+        name: "Fine Line",
+        artist: "Harry Styles",
+        cover: "https://storage.googleapis.com/a1aa/image/hRj4NLEbxj_f0NiE4FuOW6LTqnzwT6k8nlxO9qPz5CE.jpg",
+        songs: [5, 6]
+      },
+      {
+        id: 4,
+        name: "Hollywood's Bleeding",
+        artist: "Post Malone",
+        cover: "https://storage.googleapis.com/a1aa/image/YwZmRlPRB2z4zgfmbHDQeu4czrevhPmYagiz7-QQ4BA.jpg",
+        songs: [7]
+      },
+      {
+        id: 5,
+        name: "Spider-Man: Into the Spider-Verse",
+        artist: "Various Artists",
+        cover: "https://storage.googleapis.com/a1aa/image/rFMprigolUgM7fgNNMYkOthgSoWjCL0EkpCHoNBvT4s.jpg",
+        songs: [8]
+      },
+      {
+        id: 6,
+        name: "SOUR",
+        artist: "Olivia Rodrigo",
+        cover: "https://storage.googleapis.com/a1aa/image/hmRbk4b51FTKk8itgyu-QshK3jnQRvOem3sDYVcazKY.jpg",
+        songs: [10]
+      }
+    ];
+
+    // DOM Elements
+    const audioPlayer = document.getElementById('audio-player');
+    const playButton = document.getElementById('play-button');
+    const prevButton = document.getElementById('prev-button');
+    const nextButton = document.getElementById('next-button');
+    const shuffleButton = document.getElementById('shuffle-button');
+    const repeatButton = document.getElementById('repeat-button');
+    const likeButton = document.getElementById('like-button');
+    const progressBar = document.getElementById('progress-bar');
+    const volumeBar = document.getElementById('volume-bar');
+    const currentTimeDisplay = document.getElementById('current-time');
+    const durationDisplay = document.getElementById('duration');
+    const currentSongTitle = document.getElementById('current-song-title');
+    const currentSongArtist = document.getElementById('current-song-artist');
+    const currentSongCover = document.getElementById('current-song-cover');
+    const playlistsContainer = document.getElementById('playlists');
+    const recentlyPlayedContainer = document.getElementById('recently-played');
+
+    // Player State
+    let currentSongIndex = 0;
+    let isPlaying = false;
+    let isShuffled = false;
+    let isRepeated = false;
+    let currentPlaylist = [];
+    let likedSongs = [];
+
+    // Initialize the app
+    function init() {
+      renderPlaylists();
+      renderRecentlyPlayed();
+      setupEventListeners();
+    }
+
+    // Render playlists
+    function renderPlaylists() {
+      playlistsContainer.innerHTML = '';
+      playlists.forEach(playlist => {
+        const playlistElement = document.createElement('div');
+        playlistElement.className = 'bg-gray-800 p-4 rounded-lg flex items-center space-x-4 relative playlist-item';
+        playlistElement.innerHTML = `
+          <img alt="${playlist.name} Cover" class="rounded-lg" height="60" src="${playlist.cover}" width="60"/>
+          <span>${playlist.name}</span>
+          <button class="play-button bg-green-500 rounded-full p-2 hover:bg-green-600" 
+                  data-playlist-id="${playlist.id}">
+            <i class="fas fa-play text-black"></i>
+          </button>
+        `;
+        playlistsContainer.appendChild(playlistElement);
+      });
+    }
+
+    // Render recently played albums
+    function renderRecentlyPlayed() {
+      recentlyPlayedContainer.innerHTML = '';
+      recentlyPlayed.forEach(album => {
+        const albumElement = document.createElement('div');
+        albumElement.className = 'bg-gray-800 p-4 rounded-lg relative playlist-item';
+        albumElement.innerHTML = `
+          <img alt="${album.name} Cover" class="rounded-lg mb-2" height="150" src="${album.cover}" width="150"/>
+          <div class="font-bold">${album.name}</div>
+          <div class="text-gray-400 text-sm">${album.artist}</div>
+          <button class="play-button bg-green-500 rounded-full p-2 hover:bg-green-600" 
+                  data-album-id="${album.id}">
+            <i class="fas fa-play text-black"></i>
+          </button>
+        `;
+        recentlyPlayedContainer.appendChild(albumElement);
+      });
+    }
+
+    // Setup event listeners
+    function setupEventListeners() {
+      // Player controls
+      playButton.addEventListener('click', togglePlay);
+      prevButton.addEventListener('click', playPrevious);
+      nextButton.addEventListener('click', playNext);
+      shuffleButton.addEventListener('click', toggleShuffle);
+      repeatButton.addEventListener('click', toggleRepeat);
+      likeButton.addEventListener('click', toggleLike);
+      
+      // Progress bar
+      progressBar.addEventListener('input', seek);
+      audioPlayer.addEventListener('timeupdate', updateProgress);
+      audioPlayer.addEventListener('ended', handleSongEnd);
+      
+      // Volume control
+      volumeBar.addEventListener('input', setVolume);
+      
+      // Playlist and album click handlers
+      document.addEventListener('click', function(e) {
+        if (e.target.closest('.play-button[data-playlist-id]')) {
+          const playlistId = parseInt(e.target.closest('.play-button').getAttribute('data-playlist-id'));
+          playPlaylist(playlistId);
+        }
+        if (e.target.closest('.play-button[data-album-id]')) {
+          const albumId = parseInt(e.target.closest('.play-button').getAttribute('data-album-id'));
+          playAlbum(albumId);
+        }
+      });
+      
+      // Keyboard shortcuts
+      document.addEventListener('keydown', handleKeyPress);
+    }
+
+    // Play a specific playlist
+    function playPlaylist(playlistId) {
+      const playlist = playlists.find(p => p.id === playlistId);
+      if (!playlist) return;
+      
+      currentPlaylist = playlist.songs.map(songId => 
+        songs.find(song => song.id === songId))
+        .filter(song => song); // Filter out undefined if any song not found
+      
+      if (currentPlaylist.length > 0) {
+        playSong(0);
+      }
+    }
+
+    // Play a specific album
+    function playAlbum(albumId) {
+      const album = recentlyPlayed.find(a => a.id === albumId);
+      if (!album) return;
+      
+      currentPlaylist = album.songs.map(songId => 
+        songs.find(song => song.id === songId))
+        .filter(song => song);
+      
+      if (currentPlaylist.length > 0) {
+        playSong(0);
+      }
+    }
+
+    // Play a specific song
+    function playSong(index) {
+      if (index < 0 || index >= currentPlaylist.length) return;
+      
+      currentSongIndex = index;
+      const song = currentPlaylist[currentSongIndex];
+      
+      audioPlayer.src = song.audio;
+      audioPlayer.play()
+        .then(() => {
+          isPlaying = true;
+          updatePlayButton();
+          updateNowPlaying(song);
+        })
+        .catch(error => {
+          console.error('Playback failed:', error);
+          // Fallback to next song if current fails
+          if (currentSongIndex < currentPlaylist.length - 1) {
+            playSong(currentSongIndex + 1);
+          }
+        });
+    }
+
+    // Toggle play/pause
+    function togglePlay() {
+      if (audioPlayer.src) {
+        if (isPlaying) {
+          audioPlayer.pause();
+        } else {
+          audioPlayer.play();
+        }
+        isPlaying = !isPlaying;
+        updatePlayButton();
+      } else if (currentPlaylist.length > 0) {
+        // If no song is selected but we have a playlist, play the first song
+        playSong(0);
+      }
+    }
+
+    // Play previous song
+    function playPrevious() {
+      if (currentSongIndex > 0) {
+        playSong(currentSongIndex - 1);
+      } else if (isRepeated) {
+        playSong(currentPlaylist.length - 1);
+      }
+    }
+
+    // Play next song
+    function playNext() {
+      if (currentSongIndex < currentPlaylist.length - 1) {
+        playSong(currentSongIndex + 1);
+      } else if (isRepeated) {
+        playSong(0);
+      }
+    }
+
+    // Toggle shuffle
+    function toggleShuffle() {
+      isShuffled = !isShuffled;
+      shuffleButton.classList.toggle('text-green-500', isShuffled);
+      shuffleButton.classList.toggle('text-gray-400', !isShuffled);
+      
+      if (isShuffled && currentPlaylist.length > 0) {
+        // Shuffle the playlist (except the currently playing song)
+        const currentSong = currentPlaylist[currentSongIndex];
+        const otherSongs = [...currentPlaylist];
+        otherSongs.splice(currentSongIndex, 1);
+        
+        // Fisher-Yates shuffle algorithm
+        for (let i = otherSongs.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [otherSongs[i], otherSongs[j]] = [otherSongs[j], otherSongs[i]];
+        }
+        
+        currentPlaylist = [currentSong, ...otherSongs];
+        currentSongIndex = 0;
+      }
+    }
+
+    // Toggle repeat
+    function toggleRepeat() {
+      isRepeated = !isRepeated;
+      repeatButton.classList.toggle('text-green-500', isRepeated);
+      repeatButton.classList.toggle('text-gray-400', !isRepeated);
+    }
+
+    // Toggle like
+    function toggleLike() {
+      if (currentPlaylist.length === 0) return;
+      
+      const currentSongId = currentPlaylist[currentSongIndex].id;
+      const index = likedSongs.indexOf(currentSongId);
+      
+      if (index === -1) {
+        likedSongs.push(currentSongId);
+        likeButton.innerHTML = '<i class="fas fa-heart text-green-500"></i>';
+      } else {
+        likedSongs.splice(index, 1);
+        likeButton.innerHTML = '<i class="far fa-heart"></i>';
+      }
+    }
+
+    // Seek in the current song
+    function seek() {
+      const seekTime = (audioPlayer.duration / 100) * progressBar.value;
+      audioPlayer.currentTime = seekTime;
+    }
+
+    // Update progress bar
+    function updateProgress() {
+      if (!isNaN(audioPlayer.duration)) {
+        const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+        progressBar.value = progress;
+        currentTimeDisplay.textContent = formatTime(audioPlayer.currentTime);
+        durationDisplay.textContent = formatTime(audioPlayer.duration);
+      }
+    }
+
+    // Handle song end
+    function handleSongEnd() {
+      if (isRepeated) {
+        audioPlayer.currentTime = 0;
+        audioPlayer.play();
+      } else {
+        playNext();
+      }
+    }
+
+    // Set volume
+    function setVolume() {
+      audioPlayer.volume = volumeBar.value / 100;
+    }
+
+    // Update play button icon
+    function updatePlayButton() {
+      if (isPlaying) {
+        playButton.innerHTML = '<i class="fas fa-pause-circle text-2xl"></i>';
+      } else {
+        playButton.innerHTML = '<i class="fas fa-play-circle text-2xl"></i>';
+      }
+    }
+
+    // Update now playing info
+    function updateNowPlaying(song) {
+      currentSongTitle.textContent = song.title;
+      currentSongArtist.textContent = song.artist;
+      currentSongCover.src = song.cover;
+      durationDisplay.textContent = song.duration;
+      
+      // Update like button
+      const isLiked = likedSongs.includes(song.id);
+      likeButton.innerHTML = isLiked 
+        ? '<i class="fas fa-heart text-green-500"></i>' 
+        : '<i class="far fa-heart"></i>';
+    }
+
+    // Format time (seconds to MM:SS)
+    function formatTime(seconds) {
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    }
+
+    // Handle keyboard shortcuts
+    function handleKeyPress(e) {
+      switch (e.code) {
+        case 'Space':
+          e.preventDefault();
+          togglePlay();
+          break;
+        case 'ArrowLeft':
+          if (e.ctrlKey) {
+            playPrevious();
+          } else {
+            audioPlayer.currentTime = Math.max(0, audioPlayer.currentTime - 5);
+          }
+          break;
+        case 'ArrowRight':
+          if (e.ctrlKey) {
+            playNext();
+          } else {
+            audioPlayer.currentTime = Math.min(audioPlayer.duration, audioPlayer.currentTime + 5);
+          }
+          break;
+        case 'KeyM':
+          audioPlayer.muted = !audioPlayer.muted;
+          break;
+      }
+    }
+
+    // Initialize the app when DOM is loaded
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
 </html>
